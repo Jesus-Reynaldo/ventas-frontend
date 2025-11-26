@@ -9,7 +9,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Obtiene el nombre del archivo actual
+  const currentPage = window.location.pathname.split("/").pop();
 
+  // Recorre todos los enlaces del menú
+  document.querySelectorAll("aside nav a").forEach(link => {
+    const linkPage = link.getAttribute("href");
+
+    if (linkPage === currentPage) {
+      // Aplica estilo activo
+      link.classList.add("bg-indigo-600", "text-white", "shadow-md");
+      link.classList.remove("text-slate-300");
+    } else {
+      // Asegura que los demás tengan estilo normal
+      link.classList.remove("bg-indigo-600", "text-white", "shadow-md");
+      link.classList.add("text-slate-300");
+    }
+  });
+});
+</script>
 <body class="flex h-screen overflow-hidden text-gray-800">
 
        <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-xl z-20 hidden md:flex">
