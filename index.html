@@ -18,7 +18,6 @@
 
     <!-- Icons: Lucide Icons para una iconografía moderna y limpia -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
 </head>
 
 <body class="flex h-screen overflow-hidden text-gray-800">
@@ -38,9 +37,9 @@
 
         <!-- Navigation -->
         <nav class="flex-1 py-6 px-3 space-y-1">
-            <a href="#"
-                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
-                <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+            <a href="index.html"
+                class="flex items-center px-4 py-3 bg-slate-800 text-white rounded-lg transition-colors group">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
                 INICIO
             </a>
 
@@ -50,10 +49,9 @@
                 INVENTARIO
             </a>
 
-            <!-- Active State: Ventas -->
             <a href="pages/ventas.html"
                 class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
-                <i data-lucide="shopping-cart" class="w-5 h-5 mr-3"></i>
+                <i data-lucide="shopping-cart" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
                 VENTAS
             </a>
 
@@ -65,7 +63,7 @@
 
             <a href="pages/clientes.html"
                 class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
-                <i data-lucide="file-text" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                <i data-lucide="users" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
                 CLIENTES
             </a>
 
@@ -111,18 +109,175 @@
 
             <!-- Breadcrumbs / Título de Contexto -->
             <div class="hidden md:block">
-                <h1 class="text-2xl font-bold text-gray-800">Gestión de Ventas</h1>
-                <p class="text-sm text-gray-500 mt-1">Administra tus transacciones diarias</p>
+                <h1 class="text-2xl font-bold text-gray-800">INICIO</h1>
+                <p class="text-sm text-gray-500 mt-1">Resumen general de tu negocio</p>
             </div>
 
+            <div class="flex items-center gap-4">
+                <span class="text-sm text-gray-600" id="currentDate"></span>
+                <button onclick="cargarDatos()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                    Actualizar
+                </button>
+            </div>
         </header>
 
-        <!-- MODIFICACION AQUI -->
+        <!-- MAIN CONTENT -->
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
-            <h1 class="text-2xl font-bold text-gray-800">Home</h1>
-        </main>
+            
+            <!-- TARJETAS DE ESTADÍSTICAS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Total Ventas Hoy -->
+                <div class="stat-card bg-white rounded-xl shadow-md p-6 border-l-4 border-indigo-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600 font-medium">Ventas Hoy</p>
+                            <h3 class="text-3xl font-bold text-gray-800 mt-2" id="ventasHoy">
+                                <span class="skeleton bg-gray-200 rounded h-8 w-24 block"></span>
+                            </h3>
+                        </div>
+                        <div class="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center">
+                            <i data-lucide="dollar-sign" class="w-7 h-7 text-indigo-600"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4">
+                        <span id="cantidadVentasHoy" class="font-semibold">0</span> transacciones
+                    </p>
+                </div>
 
+                <!-- Total Productos -->
+                <div class="stat-card bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600 font-medium">Total Productos</p>
+                            <h3 class="text-3xl font-bold text-gray-800 mt-2" id="totalProductos">
+                                <span class="skeleton bg-gray-200 rounded h-8 w-24 block"></span>
+                            </h3>
+                        </div>
+                        <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center">
+                            <i data-lucide="package" class="w-7 h-7 text-green-600"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4">En catálogo</p>
+                </div>
+
+                <!-- Stock Bajo -->
+                <div class="stat-card bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600 font-medium">Stock Bajo</p>
+                            <h3 class="text-3xl font-bold text-gray-800 mt-2" id="stockBajo">
+                                <span class="skeleton bg-gray-200 rounded h-8 w-24 block"></span>
+                            </h3>
+                        </div>
+                        <div class="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center">
+                            <i data-lucide="alert-triangle" class="w-7 h-7 text-amber-600"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4">Requieren atención</p>
+                </div>
+
+                <!-- Total Clientes -->
+                <div class="stat-card bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600 font-medium">Total Clientes</p>
+                            <h3 class="text-3xl font-bold text-gray-800 mt-2" id="totalClientes">
+                                <span class="skeleton bg-gray-200 rounded h-8 w-24 block"></span>
+                            </h3>
+                        </div>
+                        <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i data-lucide="users" class="w-7 h-7 text-purple-600"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4">Registrados</p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN DE TABLAS -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Productos Más Vendidos -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                            <i data-lucide="trending-up" class="w-5 h-5 text-indigo-600"></i>
+                            Top 5 Productos
+                        </h2>
+                        <a href="pages/reportes.html" class="text-sm text-indigo-600 hover:text-indigo-800">Ver más →</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Producto</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Vendidos</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topProductos" class="divide-y divide-gray-200">
+                                <tr><td colspan="2" class="px-4 py-8 text-center text-gray-500">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Últimas Ventas -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                            <i data-lucide="clock" class="w-5 h-5 text-indigo-600"></i>
+                            Últimas Ventas
+                        </h2>
+                        <a href="pages/ventas.html" class="text-sm text-indigo-600 hover:text-indigo-800">Ver todas →</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Cliente</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ultimasVentas" class="divide-y divide-gray-200">
+                                <tr><td colspan="2" class="px-4 py-8 text-center text-gray-500">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Productos con Stock Bajo -->
+            <div class="bg-white rounded-xl shadow-md p-6 mt-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                        <i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i>
+                        Productos con Stock Bajo
+                    </h2>
+                    <a href="pages/inventario.html" class="text-sm text-indigo-600 hover:text-indigo-800">Gestionar inventario →</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 border-b">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Producto</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Marca</th>
+                                <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Stock Actual</th>
+                                <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Stock Mínimo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockBajoTabla" class="divide-y divide-gray-200">
+                            <tr><td colspan="4" class="px-4 py-8 text-center text-gray-500">Cargando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
     </div>
+
+    <!-- JavaScript -->
+    <script src="js/index.js"></script>
 </body>
 
 </html>
