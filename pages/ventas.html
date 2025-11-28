@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Calzados Iveth - Sistema de Ventas</title>
     <!-- Layout CSS -->
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Ventas CSS -->
+    <link rel="stylesheet" href="../css/ventas.css">
 
     <!-- UX/UI: Fuente Inter para mejor legibilidad en interfaces -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +67,7 @@
 
             <a href="clientes.html"
                 class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
-                <i data-lucide="file-text" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                <i data-lucide="users" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
                 CLIENTES
             </a>
 
@@ -117,12 +119,209 @@
 
         </header>
 
-        <!-- MODIFICACION AQUI -->
+        <!-- CONTENIDO PRINCIPAL DE VENTAS -->
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
+            
+            <!-- Grid Layout: Búsqueda y Carrito -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Columna Izquierda: Búsqueda de Cliente y Productos (2 columnas) -->
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- SECCIÓN: Búsqueda de Cliente -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="user-search" class="w-5 h-5 text-indigo-600"></i>
+                            Buscar Cliente
+                        </h2>
+                        
+                        <div class="flex gap-3">
+                            <div class="flex-1">
+                                <input 
+                                    type="number" 
+                                    id="clienteCI" 
+                                    placeholder="Ingrese CI del cliente"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                >
+                            </div>
+                            <button 
+                                onclick="buscarCliente()"
+                                class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2 font-medium">
+                                <i data-lucide="search" class="w-4 h-4"></i>
+                                Buscar
+                            </button>
+                        </div>
+
+                        <!-- Info del Cliente -->
+                        <div id="clienteInfo" class="mt-4 hidden">
+                            <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <p class="text-sm text-gray-600 mb-1">Cliente seleccionado:</p>
+                                        <p class="font-bold text-gray-800" id="clienteNombre"></p>
+                                        <p class="text-sm text-gray-600 mt-1" id="clienteEmail"></p>
+                                        <p class="text-sm text-gray-600" id="clienteTelefono"></p>
+                                    </div>
+                                    <button 
+                                        onclick="limpiarCliente()"
+                                        class="text-red-500 hover:text-red-700 transition-colors">
+                                        <i data-lucide="x-circle" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mensaje venta sin cliente -->
+                        <div id="sinClienteInfo" class="mt-4">
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                                <p class="text-sm text-gray-600 flex items-center gap-2">
+                                    <i data-lucide="info" class="w-4 h-4"></i>
+                                    Venta sin cliente registrado (opcional)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN: Búsqueda de Productos -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="package-search" class="w-5 h-5 text-indigo-600"></i>
+                            Buscar Productos
+                        </h2>
+
+                        <!-- Filtros de Búsqueda -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                            <input 
+                                type="text" 
+                                id="busquedaModelo" 
+                                placeholder="Buscar por modelo"
+                                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                onkeyup="buscarProductos()"
+                            >
+                            <select 
+                                id="busquedaMarca"
+                                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                onchange="buscarProductos()">
+                                <option value="">Todas las marcas</option>
+                            </select>
+                            <select 
+                                id="busquedaMedida"
+                                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                onchange="buscarProductos()">
+                                <option value="">Todas las medidas</option>
+                            </select>
+                        </div>
+
+                        <!-- Tabla de Productos -->
+                        <div class="overflow-x-auto max-h-96 overflow-y-auto border border-gray-200 rounded-lg">
+                            <table class="w-full">
+                                <thead class="bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Producto</th>
+                                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Stock</th>
+                                        <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Precio</th>
+                                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productosTabla" class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td colspan="4" class="px-4 py-8 text-center text-gray-500">
+                                            Cargando productos...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Carrito de Compras (1 columna) -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-md p-6 sticky top-6">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="shopping-cart" class="w-5 h-5 text-indigo-600"></i>
+                            Carrito de Compra
+                        </h2>
+
+                        <!-- Items del Carrito -->
+                        <div id="carritoItems" class="space-y-3 mb-4 max-h-64 overflow-y-auto">
+                            <div class="text-center py-8 text-gray-400">
+                                <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                                <p class="text-sm">No hay productos en el carrito</p>
+                            </div>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="border-t border-gray-200 my-4"></div>
+
+                        <!-- Método de Pago -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Método de Pago
+                            </label>
+                            <select 
+                                id="metodoPago"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                <option value="Efectivo">Efectivo</option>
+                                <option value="Tarjeta">Tarjeta</option>
+                                <option value="Transferencia">Transferencia</option>
+                                <option value="QR">QR</option>
+                            </select>
+                        </div>
+
+                        <!-- Resumen de Totales -->
+                        <div class="bg-gray-50 rounded-lg p-4 space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Subtotal:</span>
+                                <span class="font-semibold" id="subtotalCarrito">Bs. 0.00</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Productos:</span>
+                                <span class="font-semibold" id="cantidadProductos">0</span>
+                            </div>
+                            <div class="border-t border-gray-300 pt-2 mt-2">
+                                <div class="flex justify-between">
+                                    <span class="font-bold text-gray-800">TOTAL:</span>
+                                    <span class="font-bold text-xl text-indigo-600" id="totalCarrito">Bs. 0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="space-y-2">
+                            <button 
+                                onclick="procesarVenta()"
+                                id="btnProcesarVenta"
+                                disabled
+                                class="w-full px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed">
+                                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                Procesar Venta
+                            </button>
+                            <button 
+                                onclick="limpiarCarrito()"
+                                class="w-full px-6 py-3 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors flex items-center justify-center gap-2 font-medium">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                                Limpiar Carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toast de Notificaciones -->
+            <div id="toastContainer" class="fixed top-24 right-8 z-50 space-y-2"></div>
 
         </main>
 
     </div>
+
+    <!-- Script de Ventas -->
+    <script src="../js/ventas.js"></script>
+
+    <!-- Inicializar Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>
