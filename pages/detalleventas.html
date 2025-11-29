@@ -120,25 +120,99 @@
         <!-- MODIFICACION AQUI -->
 
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
+            <!-- Panel de Filtros -->
+            <section class="bg-white rounded-lg shadow p-6 mb-8">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Filtros de Búsqueda</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    <!-- Filtro por ID Detalle -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ID Detalle</label>
+                        <input type="number" id="filtro-id-detalle" placeholder="Ej: 1" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <!-- Filtro por ID Venta -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ID Venta</label>
+                        <input type="number" id="filtro-id-venta" placeholder="Ej: 5"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <!-- Filtro por ID Producto -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ID Producto</label>
+                        <input type="number" id="filtro-id-producto" placeholder="Ej: 10"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <!-- Filtro por Precio Unitario -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Precio Unitario</label>
+                        <input type="number" id="filtro-precio" placeholder="Ej: 50.00" step="0.01"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <!-- Filtro por Cédula de Cliente -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Cédula de Cliente</label>
+                        <input type="text" id="filtro-cliente-ci" placeholder="Ej: 12345678"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <!-- Selector de tipo de búsqueda para Cliente -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Búsqueda Cliente</label>
+                        <select id="tipo-busqueda-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="basico">Básico</option>
+                            <option value="completo">Completo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="cargarTodos()" 
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                        Cargar Todos
+                    </button>
+                    <button onclick="aplicarFiltro()" 
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                        Aplicar Filtro
+                    </button>
+                    <button onclick="limpiarFiltros()" 
+                        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
+                        Limpiar Filtros
+                    </button>
+                </div>
+            </section>
+
+            <!-- Tabla de Resultados -->
             <section class="bg-white rounded-lg shadow p-6">
                 <h2 class="text-lg font-semibold text-gray-800 mb-4">Detalle de Ventas</h2>
-                <table class="min-w-full table-auto text-sm">
-                    <thead>
-                    <tr class="bg-gray-100 text-gray-600">
-                        <th class="px-4 py-2 text-left">ID Detalle</th>
-                        <th class="px-4 py-2 text-left">ID Venta</th>
-                        <th class="px-4 py-2 text-left">ID Producto</th>
-                        <th class="px-4 py-2 text-left">Producto</th>
-                        <th class="px-4 py-2 text-left">Cliente</th>
-                        <th class="px-4 py-2 text-left">Cantidad</th>
-                        <th class="px-4 py-2 text-left">Precio Unitario</th>
-                        <th class="px-4 py-2 text-left">Subtotal</th>
-                    </tr>
-                    </thead>
-                <tbody id="tabla-detalle-body">
-                    <!-- Filas dinámicas aquí -->
-                </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full table-auto text-sm">
+                        <thead>
+                        <tr class="bg-gray-100 text-gray-600">
+                            <th class="px-4 py-2 text-left">ID Detalle</th>
+                            <th class="px-4 py-2 text-left">ID Venta</th>
+                            <th class="px-4 py-2 text-left">ID Producto</th>
+                            <th class="px-4 py-2 text-left">Producto</th>
+                            <th class="px-4 py-2 text-left">Cliente</th>
+                            <th class="px-4 py-2 text-left">Cantidad</th>
+                            <th class="px-4 py-2 text-left">Precio Unitario</th>
+                            <th class="px-4 py-2 text-left">Subtotal</th>
+                        </tr>
+                        </thead>
+                    <tbody id="tabla-detalle-body">
+                        <!-- Filas dinámicas aquí -->
+                    </tbody>
+                    </table>
+                </div>
+                <!-- Información de filas -->
+                <div class="mt-4 text-sm text-gray-600">
+                    <span id="contador-filas">0 resultados encontrados</span>
+                </div>
             </section>
         </main>
     </div>
