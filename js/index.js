@@ -1,11 +1,7 @@
-// ============================================
 // CONFIGURACIÓN
-// ============================================
 const API_URL = 'http://localhost:3000';
 
-// ============================================
 // INICIALIZACIÓN
-// ============================================
 document.addEventListener('DOMContentLoaded', () => {
     // Inicializar Lucide Icons
     lucide.createIcons();
@@ -20,9 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(cargarDatos, 300000);
 });
 
-// ============================================
 // FUNCIÓN PARA MOSTRAR FECHA ACTUAL
-// ============================================
 function mostrarFechaActual() {
     const fechaElement = document.getElementById('currentDate');
     if (fechaElement) {
@@ -35,9 +29,7 @@ function mostrarFechaActual() {
     }
 }
 
-// ============================================
 // FUNCIÓN PRINCIPAL PARA CARGAR DATOS
-// ============================================
 async function cargarDatos() {
     try {
         await Promise.all([
@@ -53,9 +45,7 @@ async function cargarDatos() {
     }
 }
 
-// ============================================
 // CARGAR ESTADÍSTICAS PRINCIPALES
-// ============================================
 async function cargarEstadisticas() {
     try {
         const [ventas, productos, inventario, clientes] = await Promise.all([
@@ -65,7 +55,7 @@ async function cargarEstadisticas() {
             fetch(`${API_URL}/clientes`).then(r => r.json())
         ]);
 
-        // ========== VENTAS DE HOY ==========
+        // VENTAS DE HOY
         const hoy = new Date().toDateString();
         const ventasHoy = ventas.filter(v => {
             const fechaVenta = new Date(v.fecha_venta).toDateString();
@@ -79,14 +69,14 @@ async function cargarEstadisticas() {
         document.getElementById('ventasHoy').textContent = `Bs. ${totalHoy.toFixed(2)}`;
         document.getElementById('cantidadVentasHoy').textContent = ventasHoy.length;
 
-        // ========== TOTAL PRODUCTOS ==========
+        // TOTAL PRODUCTOS
         document.getElementById('totalProductos').textContent = productos.length;
 
-        // ========== STOCK BAJO ==========
+        // STOCK BAJO 
         const stockBajo = inventario.filter(i => i.stock_actual <= i.stock_minimo);
         document.getElementById('stockBajo').textContent = stockBajo.length;
 
-        // ========== TOTAL CLIENTES ==========
+        // TOTAL CLIENTES
         document.getElementById('totalClientes').textContent = clientes.length;
 
     } catch (error) {
@@ -98,9 +88,7 @@ async function cargarEstadisticas() {
     }
 }
 
-// ============================================
 // CARGAR TOP 5 PRODUCTOS MÁS VENDIDOS
-// ============================================
 async function cargarTopProductos() {
     try {
         const detalles = await fetch(`${API_URL}/detalle-venta`).then(r => r.json());
@@ -165,9 +153,7 @@ async function cargarTopProductos() {
     }
 }
 
-// ============================================
 // CARGAR ÚLTIMAS 5 VENTAS
-// ============================================
 async function cargarUltimasVentas() {
     try {
         const ventas = await fetch(`${API_URL}/ventas`).then(r => r.json());
@@ -225,9 +211,7 @@ async function cargarUltimasVentas() {
     }
 }
 
-// ============================================
 // CARGAR PRODUCTOS CON STOCK BAJO
-// ============================================
 async function cargarStockBajo() {
     try {
         const inventario = await fetch(`${API_URL}/inventario`).then(r => r.json());
@@ -280,9 +264,7 @@ async function cargarStockBajo() {
     }
 }
 
-// ============================================
 // FUNCIONES AUXILIARES
-// ============================================
 
 function mostrarErrorEnElemento(elementId, mensaje) {
     const element = document.getElementById(elementId);
@@ -293,11 +275,8 @@ function mostrarErrorEnElemento(elementId, mensaje) {
 }
 
 function mostrarError(mensaje) {
-    // Puedes implementar un sistema de notificaciones más sofisticado aquí
     alert(mensaje);
 }
 
-// ============================================
 // EXPORTAR FUNCIONES PARA USO GLOBAL
-// ============================================
 window.cargarDatos = cargarDatos;

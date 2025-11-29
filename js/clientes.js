@@ -1,6 +1,4 @@
-// ============================================
 // CONFIGURACIÓN
-// ============================================
 const API_URL = 'http://localhost:3000';
 
 // Variables globales
@@ -9,9 +7,7 @@ let ciOriginal = null;
 let clientesData = [];
 let clienteAEliminar = null;
 
-// ============================================
 // INICIALIZACIÓN
-// ============================================
 document.addEventListener('DOMContentLoaded', () => {
     // Inicializar Lucide Icons
     lucide.createIcons();
@@ -37,9 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ============================================
 // CARGAR CLIENTES DESDE LA API
-// ============================================
 async function cargarClientes() {
     try {
         const response = await fetch(`${API_URL}/clientes`);
@@ -75,9 +69,7 @@ async function cargarClientes() {
     }
 }
 
-// ============================================
 // RENDERIZAR CLIENTES EN LA TABLA
-// ============================================
 function renderizarClientes(clientes) {
     const tbody = document.getElementById('tablaClientes');
     
@@ -139,9 +131,7 @@ function renderizarClientes(clientes) {
     lucide.createIcons();
 }
 
-// ============================================
 // FILTRAR CLIENTES (BÚSQUEDA)
-// ============================================
 function filtrarClientes() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     
@@ -162,9 +152,7 @@ function filtrarClientes() {
     renderizarClientes(clientesFiltrados);
 }
 
-// ============================================
 // ABRIR MODAL (NUEVO CLIENTE)
-// ============================================
 function abrirModal() {
     modoEdicion = false;
     ciOriginal = null;
@@ -191,9 +179,7 @@ function abrirModal() {
     lucide.createIcons();
 }
 
-// ============================================
 // CERRAR MODAL
-// ============================================
 function cerrarModal() {
     document.getElementById('modalCliente').classList.add('hidden');
     document.getElementById('modalCliente').classList.remove('show');
@@ -203,9 +189,7 @@ function cerrarModal() {
     document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
 }
 
-// ============================================
 // MANEJAR ENVÍO DEL FORMULARIO
-// ============================================
 async function handleSubmit(e) {
     e.preventDefault();
 
@@ -274,9 +258,7 @@ async function handleSubmit(e) {
     }
 }
 
-// ============================================
 // EDITAR CLIENTE
-// ============================================
 async function editarCliente(ci) {
     try {
         const response = await fetch(`${API_URL}/clientes/${ci}`);
@@ -326,9 +308,7 @@ async function editarCliente(ci) {
     }
 }
 
-// ============================================
 // CONFIRMAR ELIMINACIÓN (ABRIR MODAL)
-// ============================================
 function confirmarEliminar(ci, nombre, email) {
     clienteAEliminar = ci;
     
@@ -345,18 +325,14 @@ function confirmarEliminar(ci, nombre, email) {
     lucide.createIcons();
 }
 
-// ============================================
 // CERRAR MODAL DE CONFIRMACIÓN
-// ============================================
 function cerrarModalEliminar() {
     document.getElementById('modalConfirmarEliminar').classList.add('hidden');
     document.getElementById('modalConfirmarEliminar').classList.remove('show');
     clienteAEliminar = null;
 }
 
-// ============================================
 // EJECUTAR ELIMINACIÓN
-// ============================================
 async function ejecutarEliminar() {
     if (!clienteAEliminar) return;
     
@@ -387,9 +363,7 @@ async function ejecutarEliminar() {
     }
 }
 
-// ============================================
 // SISTEMA DE NOTIFICACIONES (TOAST)
-// ============================================
 function mostrarToast(mensaje, tipo = 'success') {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
@@ -446,9 +420,7 @@ function mostrarAdvertencia(mensaje) {
     mostrarToast(mensaje, 'warning');
 }
 
-// ============================================
 // EXPORTAR FUNCIONES GLOBALES
-// ============================================
 window.cargarClientes = cargarClientes;
 window.filtrarClientes = filtrarClientes;
 window.abrirModal = abrirModal;

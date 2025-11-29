@@ -1,6 +1,4 @@
-/* ============================================
-   ESTILOS ESPECÍFICOS PARA GESTIÓN DE CLIENTES
-   ============================================ */
+/*ESTILOS GESTIÓN DE CLIENTES*/
 
 /* Efectos hover en filas de tabla */
 #tablaClientes tr:hover {
@@ -79,7 +77,9 @@ textarea.error {
 
 input.error:focus,
 textarea.error:focus {
-    ring-color: #ef4444;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+    border-color: #ef4444;
 }
 
 /* Toast notifications */
@@ -156,7 +156,7 @@ textarea.error:focus {
     100% { transform: rotate(360deg); }
 }
 
-/* Efecto focus mejorado para accesibilidad */
+/* Efecto focus para accesibilidad */
 input:focus,
 textarea:focus,
 button:focus {
