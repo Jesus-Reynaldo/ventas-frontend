@@ -1,0 +1,219 @@
+/* ============================================
+   ESTILOS ESPECÍFICOS PARA GESTIÓN DE CLIENTES
+   ============================================ */
+
+/* Efectos hover en filas de tabla */
+#tablaClientes tr:hover {
+    background-color: #f9fafb;
+    transition: background-color 0.2s ease;
+}
+
+/* Botones de acción en tabla */
+.btn-action {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-editar {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.btn-editar:hover {
+    background-color: #bfdbfe;
+    transform: scale(1.1);
+}
+
+.btn-eliminar {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.btn-eliminar:hover {
+    background-color: #fecaca;
+    transform: scale(1.1);
+}
+
+/* Animación para el modal */
+#modalCliente.show,
+#modalConfirmarEliminar.show {
+    display: flex !important;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#modalCliente .bg-white,
+#modalConfirmarEliminar .bg-white {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Estilos para inputs con error */
+input.error,
+textarea.error {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+input.error:focus,
+textarea.error:focus {
+    ring-color: #ef4444;
+}
+
+/* Toast notifications */
+#toast {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#toast.hide {
+    animation: slideOutRight 0.3s ease-out;
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Toast con diferentes tipos */
+#toast.success .border-l-4 {
+    border-color: #10b981;
+}
+
+#toast.error .border-l-4 {
+    border-color: #ef4444;
+}
+
+#toast.warning .border-l-4 {
+    border-color: #f59e0b;
+}
+
+/* Responsive: tabla scrolleable en móvil */
+@media (max-width: 768px) {
+    .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    table {
+        font-size: 0.875rem;
+    }
+    
+    th, td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+/* Loading spinner personalizado */
+.spinner {
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid #4f46e5;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Efecto focus mejorado para accesibilidad */
+input:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Estilo para campos requeridos */
+label span.text-red-500 {
+    font-weight: bold;
+}
+
+/* Badge para mostrar estado */
+.badge-cliente {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-activo {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+/* Sombra suave para cards */
+.card-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Animación de entrada para las filas de tabla */
+@keyframes slideInRow {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+#tablaClientes tr {
+    animation: slideInRow 0.3s ease-out;
+}
+
+/* Estilo para empty state */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6b7280;
+}
+
+.empty-state i {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem;
+    color: #d1d5db;
+}
