@@ -44,36 +44,31 @@
                 INICIO
             </a>
 
+            <!-- Active State: Inventario -->
             <a href="inventario.html"
-                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+            class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
                 <i data-lucide="package" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
                 INVENTARIO
             </a>
 
-            <!-- Active State: Ventas -->
             <a href="ventas.html"
-                class="flex items-center px-4 py-3 bg-indigo-600 text-white rounded-lg shadow-md transition-all">
-                <i data-lucide="shopping-cart" class="w-5 h-5 mr-3"></i>
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="shopping-cart" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
                 VENTAS
             </a>
 
-            <a href="reportes.html"
-                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
-                <i data-lucide="bar-chart-3" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
-                REPORTES
+            <a href="detalleventas.html"
+                class="flex items-center px-4 py-3 bg-indigo-600 text-white rounded-lg shadow-md transition-all">
+                <i data-lucide="package" class="w-5 h-5 mr-3"></i>
+                DETALLE VENTAS
             </a>
 
             <a href="clientes.html"
                 class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
-                <i data-lucide="file-text" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                <i data-lucide="users" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
                 CLIENTES
             </a>
 
-            <a href="detalleventas.html"
-                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
-                <i data-lucide="file-text" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
-                DETALLE VENTAS
-            </a>
         </nav>
 
         <!-- User Profile Mini -->
@@ -216,6 +211,10 @@
             </section>
         </main>
     </div>
+    <script>
+        // Inicializar Lucide Icons
+        lucide.createIcons();
+    </script>
     <script src="../js/detalleventas.js"></script>
 </body>
 </html>
