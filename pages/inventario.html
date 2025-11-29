@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Tienda de Calzados Iveth</title>
+    <!-- Layout CSS -->
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Inventario CSS -->
+    <link rel="stylesheet" href="../css/inventario.css">
+
+    <!-- UX/UI: Fuente Inter para mejor legibilidad en interfaces -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- UI Framework: Tailwind CSS para estilos rápidos y consistentes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons: Lucide Icons para una iconografía moderna y limpia -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body class="flex h-screen overflow-hidden text-gray-800">
+    <!-- 
+    ================================================================
+    COMPONENTE: SIDEBAR (Navegación Lateral)
+    ================================================================
+    -->
+    <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-xl z-20 hidden md:flex">
+        <!-- Logo Area -->
+        <div class="h-20 flex items-center px-6 border-b border-slate-800 bg-slate-950">
+            <div class="flex flex-col">
+                <span class="font-bold text-xl tracking-wide">IVETH</span>
+                <span class="text-xs text-slate-400 uppercase tracking-wider">Tienda de Calzados</span>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 py-6 px-3 space-y-1">
+            <a href="../index.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                INICIO
+            </a>
+
+            <!-- Active State: Inventario -->
+            <a href="inventario.html"
+                class="flex items-center px-4 py-3 bg-indigo-600 text-white rounded-lg shadow-md transition-all">
+                <i data-lucide="package" class="w-5 h-5 mr-3"></i>
+                INVENTARIO
+            </a>
+
+            <a href="ventas.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="shopping-cart" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                VENTAS
+            </a>
+
+            <a href="reportes.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="bar-chart-3" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                REPORTES
+            </a>
+
+            <a href="clientes.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="file-text" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                CLIENTES
+            </a>
+
+            <a href="detalleventas.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="file-text" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                DETALLE VENTAS
+            </a>
+        </nav>
+
+        <!-- User Profile Mini -->
+        <div class="p-4 border-t border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
+                    U
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-white">Usuario Admin</p>
+                    <p class="text-xs text-slate-400">admin@iveth.com</p>
+                </div>
+                <button class="text-slate-400 hover:text-white">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 
+    ================================================================
+    CONTENIDO PRINCIPAL
+    ================================================================
+    -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+
+        <!-- Header Superior -->
+        <header class="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-8 shadow-sm z-10">
+            <div class="flex items-center md:hidden">
+                <button class="text-gray-500 hover:text-gray-700">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <span class="ml-4 font-bold text-lg text-gray-800">IVETH</span>
+            </div>
+
+            <!-- Breadcrumbs / Título de Contexto -->
+            <div class="hidden md:block">
+                <h1 class="text-2xl font-bold text-gray-800">Gestión de Inventario</h1>
+                <p class="text-sm text-gray-500 mt-1">Controla el stock y productos disponibles</p>
+            </div>
+
+        </header>
+
+        <!-- MODIFICACION AQUI -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
+            
+            <!-- Estadísticas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <!-- Total Productos -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-indigo-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 uppercase">Total Productos</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2" id="stat-total">0</p>
+                        </div>
+                        <div class="bg-indigo-100 rounded-lg p-3">
+                            <i data-lucide="package" class="w-8 h-8 text-indigo-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stock Bajo -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 uppercase">Stock Bajo</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2" id="stat-low">0</p>
+                        </div>
+                        <div class="bg-yellow-100 rounded-lg p-3">
+                            <i data-lucide="alert-triangle" class="w-8 h-8 text-yellow-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sin Stock -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 uppercase">Sin Stock</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2" id="stat-out">0</p>
+                        </div>
+                        <div class="bg-red-100 rounded-lg p-3">
+                            <i data-lucide="x-circle" class="w-8 h-8 text-red-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Valor Total -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 uppercase">Valor Total</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2" id="stat-value">Bs. 0</p>
+                        </div>
+                        <div class="bg-green-100 rounded-lg p-3">
+                            <i data-lucide="dollar-sign" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de Búsqueda y Acciones -->
+            <div class="bg-white rounded-lg shadow p-4 mb-6">
+                <div class="flex flex-col md:flex-row gap-4 items-center">
+                    <!-- Búsqueda -->
+                    <div class="flex-1 w-full">
+                        <div class="relative">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                            <input type="text" id="searchInput" 
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                                placeholder="Buscar por marca, modelo, código SKU...">
+                        </div>
+                    </div>
+                    <!-- Botones -->
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <button id="btnFilter" class="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                            <i data-lucide="filter" class="w-4 h-4"></i>
+                            Filtrar
+                        </button>
+                        <button id="btnAddProduct" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            Agregar Producto
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Inventario -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <!-- Loading State -->
+                <div id="loadingState" class="flex items-center justify-center p-12">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden text-center p-12">
+                    <i data-lucide="package-open" class="w-20 h-20 text-gray-300 mx-auto mb-4"></i>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">No hay productos en inventario</h3>
+                    <p class="text-gray-500">Comienza agregando tu primer producto al inventario</p>
+                </div>
+
+                <!-- Tabla -->
+                <div id="tableContainer" class="hidden overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imagen</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marca</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Medida</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Color</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock Mín.</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Última Act.</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Data loaded by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- MODAL: Filtros Avanzados -->
+    <div id="filterModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full m-4">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b">
+                <h2 class="text-xl font-bold text-gray-900">Filtros Avanzados</h2>
+                <button id="btnCloseFilter" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+                <!-- Filtro por Estado de Stock -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Estado de Stock</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="filter-stock rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="high" checked>
+                            <span class="flex items-center gap-2">
+                                <span class="stock-indicator high"></span>
+                                <span class="text-sm text-gray-700">Disponible</span>
+                            </span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="filter-stock rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="medium" checked>
+                            <span class="flex items-center gap-2">
+                                <span class="stock-indicator medium"></span>
+                                <span class="text-sm text-gray-700">Stock Medio</span>
+                            </span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="filter-stock rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="low" checked>
+                            <span class="flex items-center gap-2">
+                                <span class="stock-indicator low"></span>
+                                <span class="text-sm text-gray-700">Stock Bajo</span>
+                            </span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="filter-stock rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" value="out" checked>
+                            <span class="flex items-center gap-2">
+                                <span class="stock-indicator out"></span>
+                                <span class="text-sm text-gray-700">Agotado</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4"></div>
+
+                <!-- Filtro por Rango de Precio -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Rango de Precio (Bs.)</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Mínimo</label>
+                            <input type="number" id="precioMin" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="0.00" min="0" step="0.01">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Máximo</label>
+                            <input type="number" id="precioMax" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="0.00" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4"></div>
+
+                <!-- Filtro por Categorías -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Categorías</label>
+                    <div id="filterCategoriasContainer" class="space-y-2 max-h-40 overflow-y-auto">
+                        <!-- Se llenará dinámicamente con JS -->
+                    </div>
+                </div>
+
+                <div class="border-t pt-4"></div>
+
+                <!-- Filtro por Marcas -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Marcas</label>
+                    <div id="filterMarcasContainer" class="space-y-2 max-h-40 overflow-y-auto">
+                        <!-- Se llenará dinámicamente con JS -->
+                    </div>
+                </div>
+
+                <div class="border-t pt-4"></div>
+
+                <!-- Filtro por Medidas -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Medidas</label>
+                    <div id="filterMedidasContainer" class="flex flex-wrap gap-2">
+                        <!-- Se llenará dinámicamente con JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex justify-between gap-3 p-6 border-t bg-gray-50">
+                <button id="btnClearFilters" class="px-4 py-2 text-gray-700 hover:text-gray-900 font-medium transition-colors">
+                    Limpiar Filtros
+                </button>
+                <div class="flex gap-2">
+                    <button id="btnCancelFilter" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                        Cancelar
+                    </button>
+                    <button id="btnApplyFilters" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        Aplicar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Agregar/Editar Producto -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b">
+                <h2 class="text-xl font-bold text-gray-900" id="modalTitle">Agregar Nuevo Producto</h2>
+                <button id="btnCloseModal" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6">
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <input type="hidden" id="inventoryId">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Código SKU -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Código SKU <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="codigo_sku" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: ZAP-NIK-001">
+                        </div>
+
+                        <!-- Marca -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Marca <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="marca" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Nike, Adidas">
+                        </div>
+
+                        <!-- Modelo -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Modelo <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="modelo" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Air Max 270">
+                        </div>
+
+                        <!-- Categoría -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+                            <input type="text" id="categoria" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Deportivo, Casual">
+                        </div>
+
+                        <!-- Color -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                            <input type="text" id="color" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Negro, Blanco">
+                        </div>
+
+                        <!-- Medida -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Medida <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="medida" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: 42, 9.5, M, L">
+                        </div>
+
+                        <!-- Precio -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Precio Actual (Bs.) <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" step="0.01" id="precio_actual" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="0.00">
+                        </div>
+
+                        <!-- Imagen URL -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">URL de Imagen</label>
+                            <input type="text" id="imagen" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://ejemplo.com/imagen.jpg">
+                            <p class="text-xs text-gray-500 mt-1">URL completa de la imagen del producto</p>
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                            <textarea id="descripcion" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Descripción del producto"></textarea>
+                        </div>
+
+                        <!-- Stock Actual -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Stock Actual <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" id="stock_actual" value="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="0">
+                        </div>
+
+                        <!-- Stock Mínimo -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Stock Mínimo <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" id="stock_minimo" value="5" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="5">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex justify-end gap-3 p-6 border-t">
+                <button id="btnCancelModal" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                    Cancelar
+                </button>
+                <button id="btnSaveProduct" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                    <i data-lucide="save" class="w-4 h-4"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Inicializar Lucide Icons
+        lucide.createIcons();
+    </script>
+    <script src="../js/inventario.js"></script>
+</body>
+
+</html>
