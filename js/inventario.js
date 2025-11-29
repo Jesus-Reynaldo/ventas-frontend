@@ -1046,3 +1046,112 @@ window.openImageModal = openImageModal;
 window.closeImageModal = closeImageModal;
 
 console.log('✅ inventario.js cargado correctamente');
+
+// Al final de inventario.js, después de la última línea
+
+// Event listener para exportar PDF
+document.addEventListener('DOMContentLoaded', () => {
+    const btnExportPDF = document.getElementById('btnExportPDF');
+    if (btnExportPDF) {
+        btnExportPDF.addEventListener('click', exportInventoryToPDF);
+        console.log('✅ Event listener: exportar PDF');
+    }
+});
+
+// Función para exportar inventario a PDF (con filtros aplicados)
+async function exportInventoryToPDF() {
+    console.log('📄 Iniciando exportación a PDF...');
+    
+    const btnExport = document.getElementById('btnExportPDF');
+    
+    try {
+        if (btnExport) {
+            btnExport.disabled = true;
+            const originalText = btnExport.innerHTML;
+            btnExport.innerHTML = `
+                <svg class="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Generando PDF...
+            `;
+        }
+
+        console.log('🌐 Solicitando PDF al servidor...');
+        
+        // CAMBIO IMPORTANTE: Enviar los datos filtrados en lugar de solicitar todos
+        // Usar filteredData que contiene solo los productos visibles en la tabla
+        const dataToExport = filteredData.length > 0 ? filteredData : inventoryData;
+        
+        console.log(`📊 Exportando ${dataToExport.length} productos (filtrados)`);
+        
+        // Enviar los datos filtrados al backend mediante POST
+        const response = await fetch(`${API_URL}/inventario/export/pdf`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data: dataToExport })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        console.log('✅ PDF recibido, tamaño:', blob.size, 'bytes');
+
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        
+        const fecha = new Date().toISOString().split('T')[0];
+        const tieneFiltros = dataToExport.length < inventoryData.length;
+        const nombreArchivo = tieneFiltros 
+            ? `inventario_filtrado_${fecha}.pdf` 
+            : `inventario_${fecha}.pdf`;
+        
+        a.download = nombreArchivo;
+        
+        document.body.appendChild(a);
+        a.click();
+        
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        console.log('✅ Descarga iniciada');
+        
+        const mensaje = tieneFiltros 
+            ? `PDF generado con ${dataToExport.length} productos filtrados` 
+            : 'PDF generado con todos los productos';
+        
+        showToast(mensaje, 'success');
+        
+        if (btnExport) {
+            btnExport.disabled = false;
+            btnExport.innerHTML = `
+                <i data-lucide="download" class="w-4 h-4 mr-2"></i>
+                Exportar PDF
+            `;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+    } catch (error) {
+        console.error('❌ Error al exportar PDF:', error);
+        showToast('Error al generar el PDF: ' + error.message, 'error');
+        
+        if (btnExport) {
+            btnExport.disabled = false;
+            btnExport.innerHTML = `
+                <i data-lucide="download" class="w-4 h-4 mr-2"></i>
+                Exportar PDF
+            `;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+    }
+}
