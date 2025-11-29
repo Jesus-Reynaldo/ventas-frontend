@@ -1,10 +1,4 @@
-// ============================================
-// SISTEMA DE VENTAS - TIENDA IVETH
-// ============================================
-
-// ============================================
-// CONFIGURACIÓN Y VARIABLES GLOBALES
-// ============================================
+// CONFIGURACIÓN 
 const API_URL = 'http://localhost:3000';
 
 let productosDisponibles = [];
@@ -12,9 +6,7 @@ let inventarioDisponible = [];
 let carrito = [];
 let clienteSeleccionado = null;
 
-// ============================================
 // INICIALIZACIÓN
-// ============================================
 document.addEventListener('DOMContentLoaded', () => {
     cargarProductosYStock();
     cargarFiltros();
@@ -28,9 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ============================================
 // FUNCIONES DE CARGA INICIAL
-// ============================================
 async function cargarProductosYStock() {
     try {
         // Cargar productos e inventario en paralelo
@@ -95,9 +85,7 @@ async function cargarFiltros() {
     }
 }
 
-// ============================================
 // BÚSQUEDA DE CLIENTE
-// ============================================
 async function buscarCliente() {
     const ci = document.getElementById('clienteCI').value.trim();
 
@@ -144,9 +132,7 @@ function limpiarCliente() {
     lucide.createIcons();
 }
 
-// ============================================
 // BÚSQUEDA Y VISUALIZACIÓN DE PRODUCTOS
-// ============================================
 function buscarProductos() {
     const modelo = document.getElementById('busquedaModelo').value.toLowerCase();
     const marca = document.getElementById('busquedaMarca').value;
@@ -218,9 +204,7 @@ function mostrarProductos(productos) {
     lucide.createIcons();
 }
 
-// ============================================
 // GESTIÓN DEL CARRITO
-// ============================================
 function agregarAlCarrito(idProducto) {
     const producto = productosDisponibles.find(p => p.id_producto === idProducto);
 
@@ -360,9 +344,7 @@ function actualizarCarrito() {
     lucide.createIcons();
 }
 
-// ============================================
 // PROCESAR VENTA
-// ============================================
 async function procesarVenta() {
     if (carrito.length === 0) {
         mostrarToast('El carrito está vacío', 'warning');
@@ -484,9 +466,7 @@ function mostrarResumenVenta(venta) {
     alert(resumen);
 }
 
-// ============================================
 // UTILIDADES
-// ============================================
 function mostrarToast(mensaje, tipo = 'info') {
     const container = document.getElementById('toastContainer');
     
@@ -522,9 +502,7 @@ function mostrarToast(mensaje, tipo = 'info') {
     }, 3000);
 }
 
-// ============================================
 // UTILIDADES ADICIONALES
-// ============================================
 
 // Formatear moneda
 function formatearMoneda(valor) {

@@ -1,7 +1,4 @@
-/* ================================================================
-   INVENTARIO.CSS - Estilos específicos complementarios a Tailwind
-   ================================================================ */
-
+/*Estilos específicos complementarios a Tailwind*/
 
 #tableContainer {
     max-height: calc(100vh - 450px);
@@ -148,7 +145,7 @@
     background-color: #6b7280;
 }
 
-/* ===== NÚMEROS DE STOCK CON COLOR ===== */
+/*NÚMEROS DE STOCK CON COLOR*/
 .stock-number {
     font-weight: 600;
     font-size: 1rem;
@@ -170,7 +167,7 @@
     color: #6b7280;
 }
 
-/* ===== BOTONES DE ACCIÓN EN TABLA ===== */
+/*BOTONES DE ACCIÓN EN TABLA*/
 .btn-icon {
     display: inline-flex;
     align-items: center;
@@ -203,7 +200,7 @@
     color: white;
 }
 
-/* ===== ANIMACIONES DEL MODAL ===== */
+/*ANIMACIONES DEL MODAL*/
 #productModal {
     backdrop-filter: blur(2px);
 }
@@ -212,7 +209,7 @@
     display: flex !important;
 }
 
-/* ===== FILAS DE TABLA CON HOVER ===== */
+/*FILAS DE TABLA CON HOVER*/
 tbody tr {
     transition: background-color 0.15s ease;
 }
@@ -221,7 +218,7 @@ tbody tr:hover {
     background-color: #f9fafb;
 }
 
-/* ===== TOAST NOTIFICATIONS ===== */
+/*TOAST NOTIFICATIONS*/
 .toast {
     display: flex;
     align-items: center;
@@ -309,7 +306,7 @@ tbody tr:hover {
     }
 }
 
-/* ===== LOADING SPINNER ===== */
+/*LOADING SPINNER*/
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -320,13 +317,13 @@ tbody tr:hover {
     animation: spin 1s linear infinite;
 }
 
-/* ===== ESTILOS PARA INPUTS EN MODAL ===== */
+/*ESTILOS PARA INPUTS EN MODAL*/
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     opacity: 1;
 }
 
-/* ===== FILTROS - CHECKBOXES PERSONALIZADOS ===== */
+/*FILTROS - CHECKBOXES PERSONALIZADOS*/
 input[type="checkbox"] {
     cursor: pointer;
     width: 18px;

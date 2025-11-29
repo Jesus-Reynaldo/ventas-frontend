@@ -1,7 +1,3 @@
-// ================================================================
-// INVENTARIO.JS - Sistema de Gestión de Inventario
-// ================================================================
-
 // Configuración de la API
 const API_URL = 'http://localhost:3000';
 
@@ -21,9 +17,7 @@ let activeFilters = {
     medidas: []
 };
 
-// ================================================================
 // INICIALIZACIÓN
-// ================================================================
 document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ Iniciando aplicación de inventario...');
     initializeApp();
@@ -43,9 +37,7 @@ function initializeApp() {
     }
 }
 
-// ================================================================
 // EVENT LISTENERS
-// ================================================================
 function setupEventListeners() {
     // Búsqueda
     const searchInput = document.getElementById('searchInput');
@@ -129,9 +121,7 @@ function setupEventListeners() {
     }
 }
 
-// ================================================================
 // CARGAR INVENTARIO
-// ================================================================
 async function loadInventory() {
     try {
         console.log('🌐 Haciendo petición a:', `${API_URL}/inventario`);
@@ -172,9 +162,7 @@ async function loadInventory() {
     }
 }
 
-// ================================================================
 // RENDERIZAR TABLA
-// ================================================================
 function renderInventory(data) {
     console.log('🎨 Renderizando tabla con', data.length, 'productos');
     
@@ -287,9 +275,7 @@ function renderInventory(data) {
     }
 }
 
-// ================================================================
 // ESTADÍSTICAS
-// ================================================================
 function updateStatistics(data) {
     console.log('📊 Actualizando estadísticas...');
     
@@ -336,9 +322,7 @@ function updateStatistics(data) {
     console.log('✅ Estadísticas actualizadas:', { total, lowStock, outOfStock, totalValue });
 }
 
-// ================================================================
 // BÚSQUEDA Y FILTRADO
-// ================================================================
 function handleSearch(e) {
     const searchTerm = e.target.value.toLowerCase().trim();
     console.log('🔍 Buscando:', searchTerm);
@@ -372,9 +356,7 @@ function handleFilter() {
     openFilterModal();
 }
 
-// ================================================================
 // MODAL - AGREGAR/EDITAR
-// ================================================================
 function openAddModal() {
     console.log('➕ Abriendo modal para agregar producto');
     
@@ -476,9 +458,7 @@ function closeModal() {
     currentEditId = null;
 }
 
-// ================================================================
 // GUARDAR PRODUCTO
-// ================================================================
 async function saveProduct() {
     try {
         console.log('💾 Guardando producto...');
@@ -606,9 +586,7 @@ async function saveProduct() {
     }
 }
 
-// ================================================================
 // ELIMINAR PRODUCTO
-// ================================================================
 async function deleteProduct(inventoryId) {
     console.log('🗑️ Solicitando eliminar inventario ID:', inventoryId);
     
@@ -638,9 +616,7 @@ async function deleteProduct(inventoryId) {
     }
 }
 
-// ================================================================
 // FILTROS AVANZADOS
-// ================================================================
 function openFilterModal() {
     populateFilterOptions();
     
@@ -865,9 +841,7 @@ function updateFilterBadge() {
     }
 }
 
-// ================================================================
 // UTILIDADES
-// ================================================================
 function getStockStatus(stockActual, stockMinimo) {
     if (stockActual === 0) {
         return { class: 'out', text: 'Agotado' };
@@ -923,9 +897,7 @@ function showEmptyState() {
     }
 }
 
-// ================================================================
 // TOAST NOTIFICATIONS
-// ================================================================
 function showToast(message, type = 'info') {
     console.log(`📢 Toast [${type}]:`, message);
     
@@ -976,9 +948,7 @@ function showToast(message, type = 'info') {
     }, 4000);
 }
 
-// ================================================================
 // MODAL DE IMAGEN
-// ================================================================
 function openImageModal(imageUrl, productName) {
     console.log('🖼️ Abriendo modal de imagen:', productName);
     
@@ -1037,17 +1007,13 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ================================================================
 // EXPORTAR FUNCIONES GLOBALES
-// ================================================================
 window.editProduct = editProduct;
 window.deleteProduct = deleteProduct;
 window.openImageModal = openImageModal;
 window.closeImageModal = closeImageModal;
 
 console.log('✅ inventario.js cargado correctamente');
-
-// Al final de inventario.js, después de la última línea
 
 // Event listener para exportar PDF
 document.addEventListener('DOMContentLoaded', () => {
@@ -1079,7 +1045,7 @@ async function exportInventoryToPDF() {
 
         console.log('🌐 Solicitando PDF al servidor...');
         
-        // CAMBIO IMPORTANTE: Enviar los datos filtrados en lugar de solicitar todos
+        // Enviar los datos filtrados en lugar de solicitar todos
         // Usar filteredData que contiene solo los productos visibles en la tabla
         const dataToExport = filteredData.length > 0 ? filteredData : inventoryData;
         

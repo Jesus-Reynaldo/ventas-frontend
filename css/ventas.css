@@ -1,11 +1,4 @@
-/* ============================================
-   VENTAS.CSS - Estilos Específicos para Ventas
-   Tienda de Calzados Iveth
-   ============================================ */
-
-/* ============================================
-   ANIMACIONES
-   ============================================ */
+/* ANIMACIONES */
 
 /* Toast notifications slide in */
 @keyframes slideIn {
@@ -64,9 +57,7 @@
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* ============================================
-   SCROLLBARS PERSONALIZADOS
-   ============================================ */
+/* SCROLLBARS PERSONALIZADOS */
 
 /* Carrito de compras */
 #carritoItems::-webkit-scrollbar {
@@ -105,9 +96,7 @@
     background: #9ca3af;
 }
 
-/* ============================================
-   TABLAS
-   ============================================ */
+/* TABLAS */
 
 /* Efecto hover en filas de tabla */
 tbody tr {
@@ -126,9 +115,7 @@ thead.sticky {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* ============================================
-   BOTONES
-   ============================================ */
+/* BOTONES */
 
 /* Animación en todos los botones */
 button {
@@ -164,9 +151,7 @@ button:disabled {
     transform: scale(1.1);
 }
 
-/* ============================================
-   INPUTS Y FORMULARIOS
-   ============================================ */
+/* INPUTS Y FORMULARIOS */
 
 /* Mejora visual de inputs en focus */
 input:focus,
@@ -188,9 +173,7 @@ input[type="number"] {
     appearance: textfield;
 }
 
-/* ============================================
-   CARRITO DE COMPRAS
-   ============================================ */
+/* CARRITO DE COMPRAS */
 
 /* Items del carrito */
 #carritoItems > div {
@@ -207,9 +190,7 @@ input[type="number"] {
     background-image: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
 }
 
-/* ============================================
-   BADGES Y ETIQUETAS
-   ============================================ */
+/* BADGES Y ETIQUETAS */
 
 /* Badge de stock */
 .badge-stock {
@@ -249,9 +230,7 @@ input[type="number"] {
     color: #1e40af;
 }
 
-/* ============================================
-   CARDS Y CONTENEDORES
-   ============================================ */
+/* CARDS Y CONTENEDORES */
 
 /* Mejora visual de cards */
 .rounded-xl {
@@ -263,9 +242,7 @@ input[type="number"] {
     animation: fadeIn 0.3s ease-out;
 }
 
-/* ============================================
-   ESTADOS ESPECIALES
-   ============================================ */
+/* ESTADOS ESPECIALES */
 
 /* Estado de carga / loading */
 .loading {
@@ -280,9 +257,7 @@ input[type="number"] {
     color: #9ca3af;
 }
 
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
+/* RESPONSIVE DESIGN*/
 
 @media (max-width: 1024px) {
     /* Ajustar sticky en tablets */
@@ -334,9 +309,7 @@ input[type="number"] {
     }
 }
 
-/* ============================================
-   UTILIDADES ADICIONALES
-   ============================================ */
+/* UTILIDADES ADICIONALES*/
 
 /* Texto truncado */
 .truncate {
@@ -369,9 +342,7 @@ input[type="number"] {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* ============================================
-   ACCESIBILIDAD
-   ============================================ */
+/* ACCESIBILIDAD */
 
 /* Mejorar foco para navegación por teclado */
 *:focus-visible {
