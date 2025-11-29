@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Clientes - Tienda Iveth</title>
+    
+    <!-- Layout CSS -->
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/clientes.css">
+    
+    <!-- UX/UI: Fuente Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="flex h-screen overflow-hidden text-gray-800">
+    
+    <!-- ================================================================
+    SIDEBAR (Navegación Lateral)
+    ================================================================ -->
+    <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-xl z-20 hidden md:flex">
+        <!-- Logo Area -->
+        <div class="h-20 flex items-center px-6 border-b border-slate-800 bg-slate-950">
+            <div class="flex flex-col">
+                <span class="font-bold text-xl tracking-wide">IVETH</span>
+                <span class="text-xs text-slate-400 uppercase tracking-wider">Tienda de Calzados</span>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 py-6 px-3 space-y-1">
+            <a href="../index.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                INICIO
+            </a>
+
+            <a href="inventario.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="package" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                INVENTARIO
+            </a>
+
+            <a href="ventas.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="shopping-cart" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                VENTAS
+            </a>
+
+            <a href="reportes.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="bar-chart-3" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                REPORTES
+            </a>
+
+            <!-- MODIFICACION AQUI - Página activa -->
+            <a href="clientes.html"
+                class="flex items-center px-4 py-3 bg-slate-800 text-white rounded-lg transition-colors group">
+                <i data-lucide="users" class="w-5 h-5 mr-3"></i>
+                CLIENTES
+            </a>
+
+            <a href="detalleventas.html"
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="file-text" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-white"></i>
+                DETALLE VENTAS
+            </a>
+        </nav>
+
+        <!-- User Profile Mini -->
+        <div class="p-4 border-t border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
+                    U
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-white">Usuario Admin</p>
+                    <p class="text-xs text-slate-400">admin@iveth.com</p>
+                </div>
+                <button class="text-slate-400 hover:text-white">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ================================================================
+    CONTENIDO PRINCIPAL
+    ================================================================ -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+
+        <!-- Header Superior -->
+        <header class="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-8 shadow-sm z-10">
+            <div class="flex items-center md:hidden">
+                <button class="text-gray-500 hover:text-gray-700">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <span class="ml-4 font-bold text-lg text-gray-800">IVETH</span>
+            </div>
+
+            <!-- Título de la página -->
+            <div class="hidden md:block">
+                <h1 class="text-2xl font-bold text-gray-800">GESTIÓN DE CLIENTES</h1>
+                <p class="text-sm text-gray-500 mt-1">Administra la información de tus clientes</p>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button onclick="abrirModal()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
+                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                    Nuevo Cliente
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
+            
+            <!-- Barra de búsqueda y filtros -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <div class="relative">
+                            <i data-lucide="search" class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Buscar por CI, nombre, email o teléfono..."
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                onkeyup="filtrarClientes()"
+                            >
+                        </div>
+                    </div>
+                    <button onclick="cargarClientes()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        Actualizar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabla de clientes -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 border-b-2 border-gray-200">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">CI</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nombre</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Teléfono</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Dirección</th>
+                                <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaClientes" class="divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                                    <i data-lucide="loader" class="w-8 h-8 mx-auto mb-2 animate-spin"></i>
+                                    Cargando clientes...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ================================================================
+    MODAL PARA CREAR/EDITAR CLIENTE
+    ================================================================ -->
+    <div id="modalCliente" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <!-- Header del modal -->
+            <div class="bg-indigo-600 text-white px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h2 id="modalTitulo" class="text-xl font-bold flex items-center gap-2">
+                    <i data-lucide="user-plus" class="w-6 h-6"></i>
+                    Nuevo Cliente
+                </h2>
+                <button onclick="cerrarModal()" class="text-white hover:text-gray-200 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Formulario -->
+            <form id="formCliente" class="p-6 space-y-4">
+                
+                <!-- CI -->
+                <div>
+                    <label for="ci" class="block text-sm font-semibold text-gray-700 mb-2">
+                        CI <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="ci" 
+                        name="ci" 
+                        required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="Ej: 1234567"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">Cédula de identidad (solo números)</p>
+                </div>
+
+                <!-- Nombre -->
+                <div>
+                    <label for="nombre" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Nombre Completo <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="nombre" 
+                        name="nombre" 
+                        required
+                        maxlength="100"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="Ej: Juan Pérez García"
+                    >
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        maxlength="100"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="Ej: cliente@email.com"
+                    >
+                </div>
+
+                <!-- Teléfono -->
+                <div>
+                    <label for="telefono" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Teléfono
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="telefono" 
+                        name="telefono" 
+                        maxlength="20"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="Ej: 71234567"
+                    >
+                </div>
+
+                <!-- Dirección -->
+                <div>
+                    <label for="direccion" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Dirección
+                    </label>
+                    <textarea 
+                        id="direccion" 
+                        name="direccion" 
+                        rows="3"
+                        maxlength="200"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="Ej: Calle 123, Zona Central"
+                    ></textarea>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex gap-3 pt-4">
+                    <button 
+                        type="submit" 
+                        class="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-semibold flex items-center justify-center gap-2"
+                    >
+                        <i data-lucide="save" class="w-5 h-5"></i>
+                        Guardar Cliente
+                    </button>
+                    <button 
+                        type="button" 
+                        onclick="cerrarModal()"
+                        class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+                    >
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================================================================
+    MODAL DE CONFIRMACIÓN PARA ELIMINAR
+    ================================================================ -->
+    <div id="modalConfirmarEliminar" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
+            <!-- Header del modal -->
+            <div class="bg-red-600 text-white px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h2 class="text-xl font-bold flex items-center gap-2">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                    Confirmar Eliminación
+                </h2>
+                <button onclick="cerrarModalEliminar()" class="text-white hover:text-gray-200 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Contenido del modal -->
+            <div class="p-6">
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="trash-2" class="w-6 h-6 text-red-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-800 font-semibold mb-2">¿Estás seguro de eliminar este cliente?</p>
+                        <p class="text-gray-600 text-sm mb-3" id="clienteEliminarInfo"></p>
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-3 rounded">
+                            <p class="text-amber-800 text-sm">
+                                <i data-lucide="alert-circle" class="w-4 h-4 inline mr-1"></i>
+                                Esta acción no se puede deshacer.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex gap-3">
+                    <button 
+                        onclick="ejecutarEliminar()"
+                        class="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold flex items-center justify-center gap-2"
+                    >
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        Sí, Eliminar
+                    </button>
+                    <button 
+                        onclick="cerrarModalEliminar()"
+                        class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+                    >
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================
+    TOAST PARA NOTIFICACIONES
+    ================================================================ -->
+    <div id="toast" class="fixed top-4 right-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl border-l-4 p-4 min-w-[300px]">
+            <div class="flex items-center gap-3">
+                <div id="toastIcon" class="flex-shrink-0"></div>
+                <div class="flex-1">
+                    <p id="toastMessage" class="font-semibold"></p>
+                </div>
+                <button onclick="cerrarToast()" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/clientes.js"></script>
+</body>
+
+</html>
