@@ -20,6 +20,9 @@
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="../js/auth.js"></script>
+
 </head>
 
 <body class="flex h-screen overflow-hidden text-gray-800">
@@ -66,19 +69,29 @@
                 CLIENTES
             </a>
 
+            <a href="usuarios.html" 
+                class="flex items-center px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-800 hover:text-white transition-colors group">
+                <i data-lucide="shield" class="w-5 h-5 mr-3"></i>
+                USUARIOS
+            </a>
+
         </nav>
 
         <!-- User Profile Mini -->
         <div class="p-4 border-t border-slate-800">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
+                <!-- AGREGAR: data-usuario-iniciales -->
+                <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold" data-usuario-iniciales>
                     U
                 </div>
                 <div class="flex-1">
-                    <p class="text-sm font-medium text-white">Usuario Admin</p>
-                    <p class="text-xs text-slate-400">admin@iveth.com</p>
+                    <!--AGREGAR: data-usuario-nombre -->
+                    <p class="text-sm font-medium text-white" data-usuario-nombre>Cargando...</p>
+                    <!--AGREGAR: data-usuario-email -->
+                    <p class="text-xs text-slate-400" data-usuario-email>-</p>
                 </div>
-                <button class="text-slate-400 hover:text-white">
+                <!--AGREGAR: onclick="cerrarSesion()" -->
+                <button onclick="cerrarSesion()" class="text-slate-400 hover:text-white" title="Cerrar sesión">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -99,7 +112,7 @@
 
             <!-- Título de la página -->
             <div class="hidden md:block">
-                <h1 class="text-2xl font-bold text-gray-800">GESTIÓN DE CLIENTES</h1>
+                <h1 class="text-2xl font-bold text-gray-800">Gestión de Clientes</h1>
                 <p class="text-sm text-gray-500 mt-1">Administra la información de tus clientes</p>
             </div>
 
