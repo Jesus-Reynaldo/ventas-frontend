@@ -1,5 +1,5 @@
 // CONFIGURACIÓN
-const API_URL = 'http://localhost:3000';
+//const API_URL = 'http://localhost:3000';
 
 // Variables globales
 let modoEdicion = false;
