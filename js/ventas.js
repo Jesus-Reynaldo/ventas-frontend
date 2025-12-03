@@ -18,6 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
             buscarCliente();
         }
     });
+
+    // Event listener para el formulario de crear cliente
+    document.getElementById('formCrearCliente').addEventListener('submit', handleCrearCliente);
+
+    // Cerrar modal al hacer clic fuera
+    document.getElementById('modalCrearCliente').addEventListener('click', (e) => {
+        if (e.target.id === 'modalCrearCliente') {
+            cerrarModalCrearCliente();
+        }
+    });
 });
 
 // FUNCIONES DE CARGA INICIAL
@@ -99,8 +109,8 @@ async function buscarCliente() {
 
         if (!response.ok) {
             if (response.status === 404) {
-                mostrarToast('Cliente no encontrado', 'warning');
-                limpiarCliente();
+                // Cliente no encontrado - mostrar opción de crear
+                mostrarOpcionCrearCliente(ci);
                 return;
             }
             throw new Error('Error al buscar cliente');
@@ -115,6 +125,7 @@ async function buscarCliente() {
         document.getElementById('clienteTelefono').textContent = cliente.telefono || 'Sin teléfono';
         document.getElementById('clienteInfo').classList.remove('hidden');
         document.getElementById('sinClienteInfo').classList.add('hidden');
+        document.getElementById('clienteNoEncontrado').classList.add('hidden');
 
         mostrarToast(`Cliente encontrado: ${cliente.nombre}`, 'success');
         lucide.createIcons();
@@ -124,12 +135,114 @@ async function buscarCliente() {
     }
 }
 
+function mostrarOpcionCrearCliente(ci) {
+    clienteSeleccionado = null;
+    document.getElementById('clienteInfo').classList.add('hidden');
+    document.getElementById('sinClienteInfo').classList.add('hidden');
+    document.getElementById('clienteNoEncontrado').classList.remove('hidden');
+    document.getElementById('ciNoEncontrado').textContent = ci;
+    lucide.createIcons();
+}
+
 function limpiarCliente() {
     clienteSeleccionado = null;
     document.getElementById('clienteCI').value = '';
     document.getElementById('clienteInfo').classList.add('hidden');
+    document.getElementById('clienteNoEncontrado').classList.add('hidden');
     document.getElementById('sinClienteInfo').classList.remove('hidden');
     lucide.createIcons();
+}
+
+// MODAL CREAR CLIENTE
+function abrirModalCrearCliente() {
+    const ci = document.getElementById('clienteCI').value.trim();
+    
+    // Pre-llenar el CI si existe
+    if (ci) {
+        document.getElementById('nuevoClienteCI').value = ci;
+    }
+    
+    document.getElementById('modalCrearCliente').classList.remove('hidden');
+    document.getElementById('modalCrearCliente').classList.add('show');
+    lucide.createIcons();
+}
+
+function cerrarModalCrearCliente() {
+    document.getElementById('modalCrearCliente').classList.add('hidden');
+    document.getElementById('modalCrearCliente').classList.remove('show');
+    document.getElementById('formCrearCliente').reset();
+}
+
+async function handleCrearCliente(e) {
+    e.preventDefault();
+
+    const formData = {
+        ci: parseInt(document.getElementById('nuevoClienteCI').value),
+        nombre: document.getElementById('nuevoClienteNombre').value.trim(),
+        email: document.getElementById('nuevoClienteEmail').value.trim() || null,
+        telefono: document.getElementById('nuevoClienteTelefono').value.trim() || null,
+        direccion: document.getElementById('nuevoClienteDireccion').value.trim() || null
+    };
+
+    // Validación básica
+    if (!formData.ci || formData.ci <= 0) {
+        mostrarToast('El CI debe ser un número válido', 'error');
+        return;
+    }
+
+    if (!formData.nombre) {
+        mostrarToast('El nombre es obligatorio', 'error');
+        return;
+    }
+
+    try {
+        // Deshabilitar botón
+        const btnSubmit = document.querySelector('#formCrearCliente button[type="submit"]');
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<i data-lucide="loader" class="w-5 h-5 animate-spin"></i> Guardando...';
+
+        const response = await fetch(`${API_URL}/clientes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error al crear cliente');
+        }
+
+        const nuevoCliente = await response.json();
+        
+        mostrarToast('Cliente creado exitosamente', 'success');
+        
+        // Cerrar modal
+        cerrarModalCrearCliente();
+        
+        // Seleccionar automáticamente el nuevo cliente
+        clienteSeleccionado = nuevoCliente;
+        document.getElementById('clienteCI').value = nuevoCliente.ci;
+        document.getElementById('clienteNombre').textContent = nuevoCliente.nombre;
+        document.getElementById('clienteEmail').textContent = nuevoCliente.email || 'Sin email';
+        document.getElementById('clienteTelefono').textContent = nuevoCliente.telefono || 'Sin teléfono';
+        document.getElementById('clienteInfo').classList.remove('hidden');
+        document.getElementById('sinClienteInfo').classList.add('hidden');
+        document.getElementById('clienteNoEncontrado').classList.add('hidden');
+        
+        lucide.createIcons();
+
+    } catch (error) {
+        console.error('Error:', error);
+        mostrarToast(error.message || 'Error al crear el cliente', 'error');
+        
+        // Restaurar botón
+        const btnSubmit = document.querySelector('#formCrearCliente button[type="submit"]');
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = '<i data-lucide="save" class="w-5 h-5"></i> Crear Cliente';
+        lucide.createIcons();
+    }
 }
 
 // BÚSQUEDA Y VISUALIZACIÓN DE PRODUCTOS
@@ -450,17 +563,17 @@ function mostrarResumenVenta(venta) {
     const fecha = new Date().toLocaleString('es-BO');
 
     const resumen = `
-╔════════════════════════════════════╗
+╔═══════════════════════════════════╗
 ║     ✅ VENTA COMPLETADA           ║
-╠════════════════════════════════════╣
+╠═══════════════════════════════════╣
 ║ ID Venta: ${venta.id_venta.toString().padEnd(24)}║
 ║ Cliente:  ${cliente.substring(0, 24).padEnd(24)}║
 ║ Total:    Bs. ${total.padEnd(20)}║
 ║ Método:   ${venta.metodo_pago.padEnd(24)}║
 ║ Fecha:    ${fecha.substring(0, 24).padEnd(24)}║
-╠════════════════════════════════════╣
+╠═══════════════════════════════════╣
 ║    ¡Gracias por su compra!        ║
-╚════════════════════════════════════╝
+╚═══════════════════════════════════╝
     `;
 
     alert(resumen);
@@ -503,13 +616,10 @@ function mostrarToast(mensaje, tipo = 'info') {
 }
 
 // UTILIDADES ADICIONALES
-
-// Formatear moneda
 function formatearMoneda(valor) {
     return `Bs. ${Number(valor).toFixed(2)}`;
 }
 
-// Validar número positivo
 function esNumeroPositivo(valor) {
     return !isNaN(valor) && Number(valor) > 0;
 }
