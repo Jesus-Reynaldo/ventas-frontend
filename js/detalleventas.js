@@ -22,8 +22,8 @@ function dibujarTabla(detalles) {
       <td class="px-4 py-2">${detalle.productos?.modelo || 'N/A'}</td>
       <td class="px-4 py-2">${detalle.ventas?.clientes?.nombre || 'N/A'}</td>
       <td class="px-4 py-2">${detalle.cantidad}</td>
-      <td class="px-4 py-2">${detalle.precio_unitario}</td>
-      <td class="px-4 py-2">${detalle.subtotal}</td>
+      <td class="px-4 py-2">${detalle.precio_unitario} Bs.</td>
+      <td class="px-4 py-2">${detalle.subtotal} Bs.</td>
     `;
     
     tablaBody.appendChild(fila);

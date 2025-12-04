@@ -1,0 +1,369 @@
+/* ===========================
+   CONTENEDOR PRINCIPAL
+   =========================== */
+.main-container {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+  padding: 0;
+  width: 100%;
+}
+
+/* ===========================
+   PANEL DE FILTROS
+   =========================== */
+
+.filtros-section {
+  background-color: #ffffff;
+  padding: 24px 40px;
+  margin-bottom: 0;
+  width: 100%;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.filtros-section h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 18px;
+  letter-spacing: -0.3px;
+}
+
+/* ===========================
+   GRID DE FILTROS
+   =========================== */
+
+.filtros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.filtros-grid > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===========================
+   LABELS
+   =========================== */
+
+label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ===========================
+   INPUTS
+   =========================== */
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  padding: 9px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  font-size: 13px;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.25s ease;
+  color: #1a202c;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus {
+  outline: none;
+  border-color: #0d6efd;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.08);
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+  color: #adb5bd;
+}
+
+/* ===========================
+   RANGO DE FECHAS
+   =========================== */
+
+.fecha-rango {
+  display: flex;
+  flex-direction: column;
+  grid-column: span 2;
+}
+
+.fecha-flex {
+  display: flex;
+  gap: 10px;
+}
+
+.fecha-flex input {
+  flex: 1;
+}
+
+/* ===========================
+   BOTONES
+   =========================== */
+
+.botones-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+button {
+  padding: 9px 18px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important;
+  display: inline-block !important;
+  min-width: auto !important;
+  height: auto !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+}
+
+.btn-aplicar {
+  background-color: #0d6efd !important;
+  color: white !important;
+}
+
+.btn-aplicar:hover {
+  background-color: #0b5ed7 !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-aplicar:active {
+  transform: translateY(0) !important;
+}
+
+.btn-limpiar {
+  background-color: #6c757d !important;
+  color: white !important;
+}
+
+.btn-limpiar:hover {
+  background-color: #5c636a !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-limpiar:active {
+  transform: translateY(0) !important;
+}
+
+/* ===========================
+   TABLA
+   =========================== */
+
+.tabla-section {
+  background-color: #ffffff;
+  padding: 24px 40px;
+  width: 100%;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tabla-section h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 18px;
+  letter-spacing: -0.3px;
+}
+
+.tabla-container {
+  overflow-x: auto;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.tabla-resultados {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  font-size: 13px;
+}
+
+.tabla-resultados thead {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.tabla-resultados th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: #495057;
+  letter-spacing: 0.3px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.tabla-resultados th:not(:last-child) {
+  border-right: 1px solid #e9ecef;
+}
+
+.tabla-resultados tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.15s ease;
+}
+
+.tabla-resultados tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.tabla-resultados tbody tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+.tabla-resultados tbody tr:nth-child(even):hover {
+  background-color: #eef2f5;
+}
+
+.tabla-resultados td {
+  padding: 12px 16px;
+  color: #495057;
+}
+
+.tabla-resultados td:not(:last-child) {
+  border-right: 1px solid #e9ecef;
+}
+
+.tabla-resultados td:first-child {
+  font-weight: 600;
+  color: #1a202c;
+}
+
+/* ===========================
+   CONTADOR DE FILAS
+   =========================== */
+
+.contador-container {
+  margin-top: 14px;
+  font-size: 12px;
+}
+
+#contador-filas {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+@media (max-width: 1024px) {
+  .filtros-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .fecha-rango {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .filtros-section,
+  .tabla-section {
+    padding: 18px 24px;
+  }
+
+  .filtros-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .fecha-rango {
+    grid-column: span 1;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    padding: 8px 11px;
+    font-size: 12px;
+  }
+
+  label {
+    font-size: 11px;
+  }
+
+  button {
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+
+  .tabla-resultados th {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+
+  .tabla-resultados td {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .fecha-flex {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filtros-section,
+  .tabla-section {
+    padding: 14px 16px;
+  }
+
+  .filtros-grid {
+    gap: 10px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  button {
+    padding: 7px 12px;
+    font-size: 10px;
+    flex: 1;
+  }
+
+  .botones-container {
+    flex-direction: column;
+  }
+
+  .tabla-resultados th {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .tabla-resultados td {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .filtros-section h2,
+  .tabla-section h2 {
+    font-size: 15px;
+  }
+}
