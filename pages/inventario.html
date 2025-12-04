@@ -492,6 +492,58 @@
     <!-- Toast Container -->
     <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
 
+    <!-- MODAL DE CONFIRMACIÓN PARA ELIMINAR -->
+    <div id="modalConfirmarEliminar" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
+            <!-- Header del modal -->
+            <div class="bg-red-600 text-white px-6 py-4 flex items-center justify-between rounded-t-xl">
+                <h2 class="text-xl font-bold flex items-center gap-2">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                    Confirmar Eliminación
+                </h2>
+                <button onclick="cerrarModalEliminar()" class="text-white hover:text-gray-200 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Contenido del modal -->
+            <div class="p-6">
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="trash-2" class="w-6 h-6 text-red-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-800 font-semibold mb-2">¿Estás seguro de eliminar este producto?</p>
+                        <div id="productoEliminarInfo" class="text-gray-600 text-sm mb-3"></div>
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-3 rounded">
+                            <p class="text-amber-800 text-sm">
+                                <i data-lucide="alert-circle" class="w-4 h-4 inline mr-1"></i>
+                                Esta acción no se puede deshacer.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex gap-3">
+                    <button 
+                        onclick="ejecutarEliminarProducto()"
+                        class="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold flex items-center justify-center gap-2"
+                    >
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        Sí, Eliminar
+                    </button>
+                    <button 
+                        onclick="cerrarModalEliminar()"
+                        class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+                    >
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script>
         // Inicializar Lucide Icons
