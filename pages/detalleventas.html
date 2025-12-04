@@ -129,7 +129,7 @@
             </div>
         </header>
 
-        <!-- MODIFICACION AQUI -->
+<!-- MODIFICACION AQUI -->
 
         <main class="main-container">
             <!-- Panel de Filtros -->
@@ -187,7 +187,17 @@
        
             <!-- Tabla de Resultados -->
             <section class="bg-white rounded-lg shadow p-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Detalle de Ventas</h2>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-gray-800">Detalle de Ventas</h2>
+                    <button 
+                        id="btnEliminarLote"
+                        class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 active:scale-95 transform duration-150 ease-in-out transition-colors shadow-md hover:shadow-lg font-medium hidden"
+                        title="Eliminar todos los registros del filtro actual"
+                        onclick="eliminarEnLote()">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        Eliminar Lote
+                    </button>
+                </div>
                 <div class="overflow-x-auto overflow-y-auto max-h-96 border border-gray-200 rounded-lg">
                     <table class="min-w-full table-auto text-sm">
                         <thead class="sticky top-0 z-10">
@@ -197,6 +207,7 @@
                             <th class="px-4 py-3 text-left font-semibold border-b-2 border-gray-300">Cantidad</th>
                             <th class="px-4 py-3 text-left font-semibold border-b-2 border-gray-300">Precio Unitario</th>
                             <th class="px-4 py-3 text-left font-semibold border-b-2 border-gray-300">Subtotal</th>
+                            <th id="encabezado-acciones" class="px-4 py-3 text-center font-semibold border-b-2 border-gray-300 hidden">Acciones</th>
                         </tr>
                         </thead>
                     <tbody id="tabla-detalle-body">
@@ -210,7 +221,6 @@
                 </div>
             </section>
         </main>
-    </div>
     <script>
         // Inicializar Lucide Icons
         lucide.createIcons();
