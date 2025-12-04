@@ -1,4 +1,4 @@
-//Esteconst API_URL = window.API_URL || 'http://localhost:3000';
+//const API_URL = window.API_URL || 'http://localhost:3000';
 
 // Estado global
 let inventoryData = [];
@@ -342,24 +342,10 @@ async function saveProduct() {
     }
 }
 
-// ELIMINAR PRODUCTO
-async function deleteProduct(inventoryId) {
-    if (!confirm('¿Está seguro de eliminar este producto del inventario?\n\nEsta acción no se puede deshacer.')) {
-        return;
-    }
-
-    try {
-        const response = await fetch(`${API_URL}/inventario/${inventoryId}`, {
-            method: 'DELETE'
-        });
-
-        if (!response.ok) throw new Error('Error al eliminar');
-
-        showToast('Producto eliminado exitosamente', 'success');
-        loadInventory();
-    } catch (error) {
-        showToast('Error al eliminar. El producto puede estar asociado a ventas.', 'error');
-    }
+// ELIMINAR PRODUCTO - MODIFICADO PARA USAR MODAL
+function deleteProduct(inventoryId) {
+    // Ahora solo abre el modal
+    confirmarEliminarProducto(inventoryId);
 }
 
 // FILTROS
@@ -654,8 +640,99 @@ function showToast(message, type = 'info') {
     }, 4000);
 }
 
+// Variable global para almacenar el ID a eliminar
+let productoAEliminar = null;
+
+// CONFIRMAR ELIMINACIÓN (ABRIR MODAL)
+function confirmarEliminarProducto(inventoryId) {
+    // Buscar el producto en los datos
+    const item = inventoryData.find(inv => inv.id_inventario === inventoryId);
+    
+    if (!item || !item.productos) {
+        showToast('No se encontró la información del producto', 'error');
+        return;
+    }
+    
+    const producto = item.productos;
+    productoAEliminar = inventoryId;
+    
+    // Mostrar información del producto en el modal
+    document.getElementById('productoEliminarInfo').innerHTML = `
+        <strong>Producto:</strong> ${producto.marca} - ${producto.modelo}<br>
+        <strong>SKU:</strong> ${producto.codigo_sku || 'N/A'}<br>
+        <strong>Stock:</strong> ${item.stock_actual} unidades<br>
+        <strong>Precio:</strong> Bs. ${parseFloat(producto.precio_actual || 0).toFixed(2)}
+    `;
+    
+    // Abrir modal
+    document.getElementById('modalConfirmarEliminar').classList.remove('hidden');
+    lucide.createIcons();
+}
+
+// CERRAR MODAL DE CONFIRMACIÓN
+function cerrarModalEliminar() {
+    document.getElementById('modalConfirmarEliminar').classList.add('hidden');
+    productoAEliminar = null;
+}
+
+// EJECUTAR ELIMINACIÓN (DESDE EL MODAL)
+async function ejecutarEliminarProducto() {
+    if (!productoAEliminar) return;
+    
+    const inventoryId = productoAEliminar;
+    
+    try {
+        // 1️⃣ Obtener los datos del inventario para conseguir el id_producto
+        const inventarioResponse = await fetch(`${API_URL}/inventario/${inventoryId}`);
+        
+        if (!inventarioResponse.ok) {
+            throw new Error('No se pudo obtener la información del inventario');
+        }
+        
+        const inventarioData = await inventarioResponse.json();
+        const idProducto = inventarioData.id_producto;
+
+        if (!idProducto) {
+            throw new Error('No se encontró el producto asociado');
+        }
+
+        // 2️⃣ Eliminar primero el registro de INVENTARIO
+        const deleteInventarioResponse = await fetch(`${API_URL}/inventario/${inventoryId}`, {
+            method: 'DELETE'
+        });
+
+        if (!deleteInventarioResponse.ok) {
+            throw new Error('Error al eliminar el inventario');
+        }
+
+        // 3️⃣ Eliminar el PRODUCTO asociado
+        const deleteProductoResponse = await fetch(`${API_URL}/productos/${idProducto}`, {
+            method: 'DELETE'
+        });
+
+        if (!deleteProductoResponse.ok) {
+            throw new Error('Error al eliminar el producto');
+        }
+
+        // Cerrar modal
+        cerrarModalEliminar();
+        
+        showToast('Producto e inventario eliminados exitosamente', 'success');
+        loadInventory();
+
+    } catch (error) {
+        console.error('Error en ejecutarEliminarProducto:', error);
+        cerrarModalEliminar();
+        showToast('Error al eliminar: ' + error.message, 'error');
+    }
+}
+
 // EXPORTAR FUNCIONES GLOBALES
 window.editProduct = editProduct;
 window.deleteProduct = deleteProduct;
 window.openImageModal = openImageModal;
 window.closeImageModal = closeImageModal;
+//EXPORTACIONES ELIMINAR
+window.confirmarEliminarProducto = confirmarEliminarProducto;
+window.cerrarModalEliminar = cerrarModalEliminar;
+window.ejecutarEliminarProducto = ejecutarEliminarProducto;

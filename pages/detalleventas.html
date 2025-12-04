@@ -20,7 +20,6 @@
     <!-- Icons: Lucide Icons para una iconografía moderna y limpia -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <script src="../js/auth.js"></script>
     <script src="../js/permisos.js"></script>
 
 </head>
@@ -185,23 +184,25 @@
                 </div>
             </section>
 
+       
             <!-- Tabla de Resultados -->
-            <section class="tabla-section">
-                <h2>Detalle de Ventas</h2>
-                <div class="tabla-container">
-                    <table class="tabla-resultados">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Cliente</th>
-                                <th>Cantidad</th>
-                                <th>Precio Unitario</th>
-                                <th>Subtotal</th>
-                            </tr>
+            <section class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Detalle de Ventas</h2>
+                <div class="overflow-x-auto overflow-y-auto max-h-96 border border-gray-200 rounded-lg">
+                    <table class="min-w-full table-auto text-sm">
+                        <thead class="sticky top-0 z-10">
+                        <tr class="bg-gray-100 text-gray-600">
+                            <th class="px-4 py-3 text-left font-semibold border-b-2 border-gray-300">Producto</th>
+                            <th class="px-4 py-3 text-left font-semibold border-b-2 border-gray-300">Cliente</th>
+                            <th class="px-4 py-3 text-left font-semibold border-b-2 border-gray-300">Cantidad</th>
+                            <th class="px-4 py-3 text-left font-semibold border-b-2 border-gray-300">Precio Unitario</th>
+                            <th class="px-4 py-3 text-left font-semibold border-b-2 border-gray-300">Subtotal</th>
+                            <th class="px-4 py-3 text-center font-semibold border-b-2 border-gray-300">Acciones</th>
+                        </tr>
                         </thead>
-                        <tbody id="tabla-detalle-body">
-                            <!-- Filas dinámicas aquí -->
-                        </tbody>
+                    <tbody id="tabla-detalle-body">
+                        <!-- Filas dinámicas aquí -->
+                    </tbody>
                     </table>
                 </div>
                 <!-- Información de filas -->

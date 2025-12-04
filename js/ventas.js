@@ -389,12 +389,8 @@ function eliminarDelCarrito(idProducto) {
 
 function limpiarCarrito() {
     if (carrito.length === 0) return;
-
-    if (confirm('¿Está seguro de limpiar el carrito?')) {
-        carrito = [];
-        actualizarCarrito();
-        mostrarToast('Carrito limpiado', 'info');
-    }
+    // Ahora abre el modal 
+    confirmarLimpiarCarrito();
 }
 
 function actualizarCarrito() {
@@ -464,12 +460,12 @@ async function procesarVenta() {
         return;
     }
 
-    const metodoPago = document.getElementById('metodoPago').value;
+    //const metodoPago = document.getElementById('metodoPago').value;
 
     // Preparar datos de la venta
     const ventaData = {
         ci: clienteSeleccionado ? clienteSeleccionado.ci : null,
-        metodo_pago: metodoPago,
+        //metodo_pago: metodoPago,
         detalle: carrito.map(item => ({
             id_producto: item.id_producto,
             cantidad: item.cantidad,
@@ -511,6 +507,8 @@ async function procesarVenta() {
         // Mostrar éxito
         mostrarToast(`¡Venta procesada exitosamente! ID: ${venta.id_venta}`, 'success');
 
+        const nombreClienteVenta = clienteSeleccionado ? clienteSeleccionado.nombre : null;
+
         // Limpiar formulario
         carrito = [];
         limpiarCliente();
@@ -518,7 +516,7 @@ async function procesarVenta() {
         await cargarProductosYStock();
 
         // Mostrar resumen
-        mostrarResumenVenta(venta);
+        mostrarResumenVenta(venta, nombreClienteVenta);
 
     } catch (error) {
         console.error('Error:', error);
@@ -557,26 +555,49 @@ async function actualizarInventario(items) {
     await Promise.all(promesas);
 }
 
-function mostrarResumenVenta(venta) {
+function mostrarResumenVenta(venta, nombreCliente = null) {
+    // Si no se pasa el nombre, intentar obtenerlo de la variable global
+    const cliente = nombreCliente || (clienteSeleccionado ? clienteSeleccionado.nombre : null);
+    
+    // Pasar al modal
+    mostrarModalResumenVenta(venta, cliente);
+}
+
+
+function ejecutarLimpiarCarrito() {
+    carrito = [];
+    actualizarCarrito();
+    cerrarModalLimpiar();
+    mostrarToast('Carrito limpiado', 'info');
+}
+
+// MODAL DE RESUMEN DE VENTA - CORREGIDO
+function mostrarModalResumenVenta(venta, nombreCliente) {
     const total = Number(venta.total).toFixed(2);
-    const cliente = clienteSeleccionado ? clienteSeleccionado.nombre : 'Sin cliente';
-    const fecha = new Date().toLocaleString('es-BO');
+    const cliente = nombreCliente || 'Sin cliente';
+    const fecha = new Date().toLocaleString('es-BO', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
 
-    const resumen = `
-╔═══════════════════════════════════╗
-║     ✅ VENTA COMPLETADA           ║
-╠═══════════════════════════════════╣
-║ ID Venta: ${venta.id_venta.toString().padEnd(24)}║
-║ Cliente:  ${cliente.substring(0, 24).padEnd(24)}║
-║ Total:    Bs. ${total.padEnd(20)}║
-║ Método:   ${venta.metodo_pago.padEnd(24)}║
-║ Fecha:    ${fecha.substring(0, 24).padEnd(24)}║
-╠═══════════════════════════════════╣
-║    ¡Gracias por su compra!        ║
-╚═══════════════════════════════════╝
-    `;
+    // Llenar información en el modal
+    document.getElementById('resumenIdVenta').textContent = venta.id_venta;
+    document.getElementById('resumenCliente').textContent = cliente;
+    document.getElementById('resumenTotal').textContent = `Bs. ${total}`;
+    //document.getElementById('resumenMetodo').textContent = venta.metodo_pago;
+    document.getElementById('resumenFecha').textContent = fecha;
 
-    alert(resumen);
+    // Abrir modal
+    document.getElementById('modalResumenVenta').classList.remove('hidden');
+    lucide.createIcons();
+}
+
+function cerrarModalResumen() {
+    document.getElementById('modalResumenVenta').classList.add('hidden');
 }
 
 // UTILIDADES
@@ -623,3 +644,22 @@ function formatearMoneda(valor) {
 function esNumeroPositivo(valor) {
     return !isNaN(valor) && Number(valor) > 0;
 }
+
+// EXPORTAR FUNCIONES GLOBALES
+window.buscarCliente = buscarCliente;
+window.limpiarCliente = limpiarCliente;
+window.abrirModalCrearCliente = abrirModalCrearCliente;
+window.cerrarModalCrearCliente = cerrarModalCrearCliente;
+window.buscarProductos = buscarProductos;
+window.agregarAlCarrito = agregarAlCarrito;
+window.actualizarCantidad = actualizarCantidad;
+window.eliminarDelCarrito = eliminarDelCarrito;
+window.limpiarCarrito = limpiarCarrito;
+window.procesarVenta = procesarVenta;
+
+// EXPORTACIONES PARA MODALES
+window.confirmarLimpiarCarrito = confirmarLimpiarCarrito;
+window.cerrarModalLimpiar = cerrarModalLimpiar;
+window.ejecutarLimpiarCarrito = ejecutarLimpiarCarrito;
+window.mostrarModalResumenVenta = mostrarModalResumenVenta;
+window.cerrarModalResumen = cerrarModalResumen;
